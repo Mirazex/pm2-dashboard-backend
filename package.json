@@ -4,8 +4,8 @@
     "main": "./dist/app.js",
     "license": "MIT",
     "scripts": {
-        "start": "ts-node --swc --esm ./src/app.ts",
-        "create:admin": "ts-node --swc --esm ./src/scripts/create-admin.ts"
+        "start": "ts-node --swc ./src/app.ts",
+        "create:admin": "ts-node --swc ./src/scripts/create-admin.ts"
     },
     "devDependencies": {
         "@types/bcrypt": "^5.0.0",
