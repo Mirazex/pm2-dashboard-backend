@@ -31,5 +31,11 @@ export default class Auth {
         }
 
         return true;
+
+
+    }
+
+    static createHash() {
+        return crypto.randomBytes(20).toString('hex');
     }
 }

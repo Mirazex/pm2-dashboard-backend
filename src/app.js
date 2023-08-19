@@ -4,8 +4,9 @@ import path from "node:path";
 import Env from '@/lib/helpers/Env.js';
 import GlobFile from "@/lib/helpers/GlobFile.js";
 import Server from "@/lib/core/Server.js";
-import {getRandomHash} from './utils/random.js';
 import EnvService from './services/EnvService.js';
+import Auth from "@/lib/helpers/Auth.js";
+
 
 if (!Env.get("ADMIN_USERNAME", false) || !Env.get("ADMIN_PASSWORD", false)) {
     console.log("You must first setup admin user. Run command -> yarn create:admin");
@@ -13,7 +14,7 @@ if (!Env.get("ADMIN_USERNAME", false) || !Env.get("ADMIN_PASSWORD", false)) {
 }
 
 if (!Env.get("SESSION_SECRET", false)) {
-    const secret = getRandomHash();
+    const secret = Auth.createHash();
     EnvService.write({
         SESSION_SECRET: secret
     });
