@@ -4,7 +4,7 @@ import CheckApp from '@/middlewares/CheckApp.js';
 import CheckAuth from '@/middlewares/CheckAuth.js';
 import LogService from '@/services/LogService.js';
 
-export default class FinaByType extends Controller {
+export default class GetLogs extends Controller {
     path = '/apps/:appName/logs/:logType';
     method = Controller.RequestMethod.GET;
     middlewares = [CheckAuth, CheckApp];
@@ -22,8 +22,8 @@ export default class FinaByType extends Controller {
             throw ApplicationError.NotFound();
         }
 
-        const filePath = logType === 'stdout' ? app.pm_out_log_path : app.pm_err_log_path;
-        let logs = await this.logService.read(filePath, nextKey, lineCount);
+        const filePath = logType === 'stdout' ? app.logs.output : app.logs.error;
+        const logs = await this.logService.read(filePath, nextKey, lineCount);
 
         if (Array.isArray(logs.lines) && logs.lines.length > 0) {
             logs.lines = logs.lines.map(log => {

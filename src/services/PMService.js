@@ -1,10 +1,10 @@
 import pm2 from 'pm2';
-import Formatter from "@/lib/helpers/Formatter.js";
+import Instance from "@/models/Instance.js";
 
 
 class PMService {
-    list() {
-        return new Promise((resolve, reject) => {
+    async list() {
+        const apps = await new Promise((resolve, reject) => {
             pm2.connect((err) => {
                 if (err) reject(err);
 
@@ -12,23 +12,16 @@ class PMService {
                     pm2.disconnect();
                     if (err) reject(err);
 
-                    apps = apps.map((app) => ({
-                        name: app.name,
-                        status: app.pm2_env?.status,
-                        cpu: app.monit?.cpu,
-                        memory: Formatter.humanizeBytes(app.monit?.memory || 0),
-                        uptime: Formatter.dateSince(app.pm2_env?.pm_uptime || 0),
-                        pm_id: app.pm_id,
-                    }));
-
-                    resolve(apps);
+                    return resolve(apps);
                 });
             });
         });
+
+        return apps.map(app => new Instance(app));
     }
 
-    describe(appName) {
-        return new Promise((resolve, reject) => {
+    async describe(appName) {
+        const app = await new Promise((resolve, reject) => {
             pm2.connect((err) => {
                 if (err) reject(err);
 
@@ -37,23 +30,15 @@ class PMService {
                     if (err) reject(err);
 
                     if (Array.isArray(apps) && apps.length > 0) {
-                        const app = {
-                            name: apps[0].name,
-                            status: apps[0].pm2_env?.status,
-                            cpu: apps[0].monit?.cpu,
-                            memory: Formatter.humanizeBytes(apps[0].monit?.memory || 0),
-                            uptime: Formatter.dateSince(apps[0].pm2_env?.pm_uptime || 0),
-                            pm_id: apps[0].pm_id,
-                            pm_out_log_path: apps[0].pm2_env?.pm_out_log_path,
-                            pm_err_log_path: apps[0].pm2_env?.pm_err_log_path,
-                            pm2_env_cwd: apps[0].pm2_env?.pm_cwd,
-                        };
+                        return resolve(apps[0]);
+                    }
 
-                        resolve(app);
-                    } else resolve(null);
+                    return resolve(null);
                 });
             });
         });
+
+        return app ? new Instance(app) : null;
     }
 
     reload(process) {

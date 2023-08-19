@@ -15,9 +15,9 @@ const questions = [
         message: 'Admin Username',
         validate: (value) => {
             value = value.trim();
-            if (!value) return 'App username is required';
-            else if (value.length < 4) return 'App username must have atleast 4 characters';
-            else if (!regex.username.test(value)) return 'App username can only contain Lowercase letters (a-z), Numbers (0-9) and Underscores (_)';
+            if (!value) return 'SimpleInstance username is required';
+            else if (value.length < 4) return 'SimpleInstance username must have atleast 4 characters';
+            else if (!regex.username.test(value)) return 'SimpleInstance username can only contain Lowercase letters (a-z), Numbers (0-9) and Underscores (_)';
             return true;
         },
     },
@@ -26,9 +26,9 @@ const questions = [
         name: 'password',
         message: 'Admin Password',
         validate: (value) => {
-            if (!value) return 'App password is required';
-            else if (value.length < 4) return 'App username must have mininum 8 characters';
-            else if (!regex.password.test(value)) return 'App username must contain at least a symbol, upper and lower case letters and a number';
+            if (!value) return 'SimpleInstance password is required';
+            else if (value.length < 4) return 'SimpleInstance username must have mininum 8 characters';
+            else if (!regex.password.test(value)) return 'SimpleInstance username must contain at least a symbol, upper and lower case letters and a number';
             return true;
         },
     },

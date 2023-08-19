@@ -1,27 +1,29 @@
-import {exec} from 'node:child_process';
+import {execSync} from 'node:child_process';
 
 class GitService {
 
-    async branch(cwd) {
-        return new Promise((resolve) => {
-            exec('git rev-parse --abbrev-ref HEAD', {cwd}, (err, stdout) => {
-                if (!err && typeof stdout === 'string') {
-                    return resolve(stdout.trim());
-                }
-                resolve(null);
-            });
-        });
+    getCurrentBranch(cwd) {
+        const branch = execSync('git rev-parse --abbrev-ref HEAD', {cwd}).toString().trim();
+        const remoteUrl = this.getRemoteUrl(cwd);
+        return {
+            name: branch,
+            url: `${remoteUrl}/tree/${branch}`
+        };
     }
 
-    async commit(cwd) {
-        return new Promise((resolve) => {
-            exec('git rev-parse --short HEAD', {cwd}, (err, stdout) => {
-                if (!err && typeof stdout === 'string') {
-                    return resolve(stdout.trim());
-                }
-                resolve(null);
-            });
-        });
+    getLastCommit(cwd) {
+        const commit = execSync('git rev-parse --short HEAD', {cwd}).toString().trim();
+        const remoteUrl = this.getRemoteUrl(cwd);
+        const message = execSync('git log -1 --pretty=%B', {cwd}).toString().trim();
+        return {
+            hash: commit,
+            url: `${remoteUrl}/commit/${commit}`,
+            message
+        };
+    }
+
+    getRemoteUrl(cwd) {
+        return execSync('git config --get remote.origin.url', {cwd}).toString().trim();
     }
 
 }

@@ -6,6 +6,7 @@ export default class ApplicationError extends Error {
     static BadUserToken = () => new ApplicationError(5, 401, `Bad token`);
     static InvalidCredentials = () => new ApplicationError(6, 401, `Invalid credentials`);
     static RequiredAttributes = () => new ApplicationError(7, 400, `Required attributes not specified`);
+    static NotCommand = (command) => new ApplicationError(7, 400, `Application command ${command} not found}`);
     static JsonValidation = (message) => new ApplicationError(8, 422, `JSON is bad: ${message}`);
     static AlreadyExists = () => new ApplicationError(9, 409, `Already exists`);
     static EnvironmentNotFound = (key) => new ApplicationError(12, 500, `Application environment with key '${key}' not set`);

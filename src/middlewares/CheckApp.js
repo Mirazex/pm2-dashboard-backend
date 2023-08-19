@@ -16,12 +16,16 @@ export default class CheckApp extends Middleware {
             throw ApplicationError.RequiredAttributes();
         }
 
-        const app = (await this.pmService.describe(appName));
+        const app = await this.pmService.describe(appName);
         if (!app) throw ApplicationError.NotFound();
 
-        app.git_branch = await this.gitService.branch(app.pm2_env_cwd);
-        app.git_commit = await this.gitService.commit(app.pm2_env_cwd);
-        app.env_file = await this.envService.get(app.pm2_env_cwd, true);
+        app.git = {
+            remote: this.gitService.getRemoteUrl(app.cwd),
+            branch: this.gitService.getCurrentBranch(app.cwd),
+            last_commit: this.gitService.getLastCommit(app.cwd),
+        };
+
+        app.environment = await this.envService.get(app.cwd, true);
 
         ctx.context.app = app;
     }

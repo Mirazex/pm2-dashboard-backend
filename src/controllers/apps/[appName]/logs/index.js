@@ -3,7 +3,7 @@ import CheckApp from '@/middlewares/CheckApp.js';
 import CheckAuth from '@/middlewares/CheckAuth.js';
 import LogService from '@/services/LogService.js';
 
-export default class FinaMany extends Controller {
+export default class GetLogs extends Controller {
     path = '/apps/:appName/logs';
     method = Controller.RequestMethod.GET;
     middlewares = [CheckAuth, CheckApp];
@@ -13,8 +13,8 @@ export default class FinaMany extends Controller {
     async request(ctx) {
         const app = ctx.context.app;
 
-        let stdout = await this.logService.read(app.pm_out_log_path);
-        let stderr = await this.logService.read(app.pm_out_log_path);
+        let stdout = await this.logService.read(app.logs.output);
+        let stderr = await this.logService.read(app.logs.error);
 
         if (Array.isArray(stdout.lines) && stdout.lines.length > 0) {
             stdout.lines = stdout.lines.map(log => {
