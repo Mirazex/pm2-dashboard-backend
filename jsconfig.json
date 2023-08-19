@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "target": "ES2023",
+        "module": "ESNext",
+        "lib": [
+            "ESNext"
+        ],
+        "baseUrl": "./src",
+        "paths": {
+            "@/*": [
+                "./*"
+            ]
+        }
+    }
+}
