@@ -23,7 +23,7 @@ export default class AppCommand extends Controller {
         }
 
         try {
-            const apps = await this.pmService.reload(appName);
+            const apps = await this.pmService[command](appName);
             if (Array.isArray(apps) && apps.length > 0) return {
                 success: true,
             };

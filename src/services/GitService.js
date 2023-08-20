@@ -15,10 +15,19 @@ class GitService {
         const commit = execSync('git rev-parse --short HEAD', {cwd}).toString().trim();
         const remoteUrl = this.getRemoteUrl(cwd);
         const message = execSync('git log -1 --pretty=%B', {cwd}).toString().trim();
+
+
         return {
             hash: commit,
             url: `${remoteUrl}/commit/${commit}`,
-            message
+            message: {
+                title: message.split('\n')[0],
+                body: message.split('\n').slice(1).join('\n'),
+            },
+            author: {
+                name: execSync('git log -1 --pretty=%an', {cwd}).toString().trim(),
+                email: execSync('git log -1 --pretty=%ae', {cwd}).toString().trim(),
+            }
         };
     }
 
