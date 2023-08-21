@@ -26,11 +26,8 @@ export default class GetLogs extends Controller {
         const logs = await this.logService.read(filePath, nextKey, lineCount);
 
         if (Array.isArray(logs.lines) && logs.lines.length > 0) {
-            logs.lines = logs.lines.map(log => {
-                return this.logService.converter.toHtml(log);
-            });
+            logs.lines = logs.lines.map(log => this.logService.formatEntry(log));
         }
-
 
         return logs;
     }
