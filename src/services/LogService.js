@@ -1,10 +1,8 @@
-import AnsiConverter from 'ansi-to-html';
 import {createReadStream, statSync} from 'node:fs';
 import {toInt} from 'radash';
 import dayjs from "dayjs";
 
 class LogService {
-    converter = new AnsiConverter();
 
     formatEntry(entry) {
         const logRegex = /^(\d{4}-\d{2}-\d{2} \d{2}:\d{2} [+-]\d{2}:\d{2}): (.+)$/;
