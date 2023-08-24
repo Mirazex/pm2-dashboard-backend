@@ -2,6 +2,7 @@ import ApplicationError from './ApplicationError.js';
 import Env from './Env.js';
 import jwt from 'jsonwebtoken';
 import {compareSync, hashSync} from "bcrypt";
+import * as crypto from "node:crypto";
 
 export default class Auth {
 
@@ -31,8 +32,6 @@ export default class Auth {
         }
 
         return true;
-
-
     }
 
     static createHash() {

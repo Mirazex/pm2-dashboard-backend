@@ -27,11 +27,6 @@ class EnvService {
     write(data) {
         const parseEnv = this.read();
 
-        console.log(stringify({
-            ...parseEnv,
-            ...data
-        }));
-
         writeFileSync(this.filePath, stringify({
             ...parseEnv,
             ...data

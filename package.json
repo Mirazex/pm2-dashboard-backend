@@ -1,13 +1,16 @@
 {
-    "name": "pm2-dashboard-server",
+    "name": "pm2-agent",
     "version": "1.0.0",
     "exports": "./src/app.js",
     "type": "module",
     "license": "MIT",
     "scripts": {
-        "start": "node --loader esm-module-alias/loader --no-warnings ./src/app.js",
+        "app:start": "node --loader esm-module-alias/loader --no-warnings ./src/app.js",
         "dev": "node --watch --loader esm-module-alias/loader --no-warnings ./src/app.js",
-        "create:admin": "node --loader esm-module-alias/loader --no-warnings ./src/scripts/create-admin.js"
+        "start": "node --loader esm-module-alias/loader --no-warnings ./src/scripts/start.js",
+        "create:admin": "node --loader esm-module-alias/loader --no-warnings ./src/scripts/create-admin.js",
+        "create:secret": "node --loader esm-module-alias/loader --no-warnings ./src/scripts/create-secret.js",
+        "postinstall": "yarn install"
     },
     "devDependencies": {
         "eslint": "^8.42.0",
